@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors')
 const siteConfig = require('./config/site.config')
 
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', './old/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
       transparent: 'transparent',
