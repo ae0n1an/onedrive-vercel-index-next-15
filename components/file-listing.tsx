@@ -8,7 +8,6 @@ import emojiRegex from 'emoji-regex'
 
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter } from 'next/navigation'
-import { useTranslation } from 'next-i18next'
 
 import useLocalStorage from '../utils/useLocalStorage'
 import { getPreviewType, preview } from '../utils/getPreviewType'
@@ -20,29 +19,29 @@ import {
   downloadMultipleFiles,
   downloadTreelikeMultipleFiles,
   traverseFolder,
-} from './MultiFileDownloader'
+} from './multi-file-downloader'
 
-import { layouts } from './SwitchLayout'
-import Loading, { LoadingIcon } from './Loading'
-import FourOhFour from './FourOhFour'
-import Auth from './Auth'
-import TextPreview from './previews/TextPreview'
-import MarkdownPreview from './previews/MarkdownPreview'
-import CodePreview from './previews/CodePreview'
-import OfficePreview from './previews/OfficePreview'
-import AudioPreview from './previews/AudioPreview'
-import VideoPreview from './previews/VideoPreview'
-import PDFPreview from './previews/PDFPreview'
-import URLPreview from './previews/URLPreview'
-import ImagePreview from './previews/ImagePreview'
-import DefaultPreview from './previews/DefaultPreview'
-import { PreviewContainer } from './previews/Containers'
+import { layouts } from './switch-layout'
+import Loading, { LoadingIcon } from './loading'
+import FourOhFour from './four-oh-four'
+import Auth from './auth'
+import TextPreview from './previews/text-preview'
+import MarkdownPreview from './previews/markdown-preview'
+import CodePreview from './previews/code-preview'
+import OfficePreview from './previews/office-preview'
+import AudioPreview from './previews/audio-preview'
+import VideoPreview from './previews/video-preview'
+import PDFPreview from './previews/pdf-preview'
+import URLPreview from './previews/url-preview'
+import ImagePreview from './previews/image-preview'
+import DefaultPreview from './previews/default-preview'
+import { PreviewContainer } from './previews/containers'
 
-import FolderListLayout from './FolderListLayout'
-import FolderGridLayout from './FolderGridLayout'
+import FolderListLayout from './folder-list-layout'
+import FolderGridLayout from './folder-grid-layout'
 
 // Disabling SSR for some previews
-const EPUBPreview = dynamic(() => import('./previews/EPUBPreview'), {
+const EPUBPreview = dynamic(() => import('./previews/epub-preview'), {
   ssr: false,
 })
 
@@ -160,13 +159,12 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
   const router = useRouter()
   const pathname = usePathname()
+  const asPath = decodeURIComponent(pathname)
 
   // const hashedToken = getStoredToken(router.asPath)
-  const hashedToken = getStoredToken(pathname)
+  const hashedToken = getStoredToken(asPath)
 
   const [layout, _] = useLocalStorage('preferredLayout', layouts[0])
-
-  const { t } = useTranslation()
 
   const path = queryToPath(query)
 
@@ -188,7 +186,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
   if (!data) {
     return (
       <PreviewContainer>
-        <Loading loadingText={t('Loading ...')} />
+        <Loading loadingText={'Loading ...'} />
       </PreviewContainer>
     )
   }
@@ -265,13 +263,13 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         downloadMultipleFiles({ toastId, router, files, folder })
           .then(() => {
             setTotalGenerating(false)
-            toast.success(t('Finished downloading selected files.'), {
+            toast.success('Finished downloading selected files.', {
               id: toastId,
             })
           })
           .catch(() => {
             setTotalGenerating(false)
-            toast.error(t('Failed to download selected files.'), { id: toastId })
+            toast.error('Failed to download selected files.', { id: toastId })
           })
       }
     }
@@ -293,11 +291,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         for await (const { meta: c, path: p, isFolder, error } of traverseFolder(path)) {
           if (error) {
             toast.error(
-              t('Failed to download folder {{path}}: {{status}} {{message}} Skipped it to continue.', {
-                path: p,
-                status: error.status,
-                message: error.message,
-              })
+              `Failed to download folder ${p}: ${error.status} ${error.message} Skipped it to continue.`
             )
             continue
           }
@@ -323,11 +317,11 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
       })
         .then(() => {
           setFolderGenerating({ ...folderGenerating, [id]: false })
-          toast.success(t('Finished downloading folder.'), { id: toastId })
+          toast.success('Finished downloading folder.', { id: toastId })
         })
         .catch(() => {
           setFolderGenerating({ ...folderGenerating, [id]: false })
-          toast.error(t('Failed to download folder.'), { id: toastId })
+          toast.error('Failed to download folder.', { id: toastId })
         })
     }
 
@@ -356,13 +350,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
         {!onlyOnePage && (
           <div className="rounded-b bg-white dark:bg-gray-900 dark:text-gray-100">
             <div className="border-b border-gray-200 p-3 text-center font-mono text-sm text-gray-400 dark:border-gray-700">
-              {t('- showing {{count}} page(s) ', {
-                count: size,
-                totalFileNum: isLoadingMore ? '...' : folderChildren.length,
-              }) +
-                (isLoadingMore
-                  ? t('of {{count}} file(s) -', { count: folderChildren.length, context: 'loading' })
-                  : t('of {{count}} file(s) -', { count: folderChildren.length, context: 'loaded' }))}
+              {`- showing ${size} page(s) of ${isLoadingMore ? '...' : folderChildren.length} file(s) -`}
             </div>
             <button
               className={`flex w-full items-center justify-center space-x-2 p-3 disabled:cursor-not-allowed ${
@@ -374,13 +362,13 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
               {isLoadingMore ? (
                 <>
                   <LoadingIcon className="inline-block h-4 w-4 animate-spin" />
-                  <span>{t('Loading ...')}</span>{' '}
+                  <span>{'Loading ...'}</span>{' '}
                 </>
               ) : isReachingEnd ? (
-                <span>{t('No more files')}</span>
+                <span>{'No more files'}</span>
               ) : (
                 <>
-                  <span>{t('Load more')}</span>
+                  <span>{'Load more'}</span>
                   <FontAwesomeIcon icon="chevron-circle-down" />
                 </>
               )}
@@ -443,7 +431,7 @@ const FileListing: FC<{ query?: ParsedUrlQuery }> = ({ query }) => {
 
   return (
     <PreviewContainer>
-      <FourOhFour errorMsg={t('Cannot preview {{path}}', { path })} />
+      <FourOhFour errorMsg={`Cannot preview ${path}`} />
     </PreviewContainer>
   )
 }

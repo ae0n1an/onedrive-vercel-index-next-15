@@ -1,6 +1,5 @@
 "use client";
 import { FC } from 'react'
-import { useTranslation } from 'next-i18next'
 import useSystemTheme from 'react-use-system-theme'
 
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -8,10 +7,10 @@ import { tomorrowNightEighties, tomorrow } from 'react-syntax-highlighter/dist/c
 
 import useFileContent from '../../utils/fetchOnMount'
 import { getLanguageByFileName } from '../../utils/getPreviewType'
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
-import { DownloadBtnContainer, PreviewContainer } from './Containers'
+import FourOhFour from '../four-oh-four'
+import Loading from '../loading'
+import DownloadButtonGroup from '../download-btn-gtoup'
+import { DownloadBtnContainer, PreviewContainer } from './containers'
 import { usePathname } from 'next/navigation'
 
 const CodePreview: FC<{ file: any }> = ({ file }) => {
@@ -22,7 +21,6 @@ const CodePreview: FC<{ file: any }> = ({ file }) => {
   const { response: content, error, validating } = useFileContent(`/api/raw/?path=${asPath}`, asPath)
 
   const theme = useSystemTheme('dark')
-  const { t } = useTranslation()
 
   if (error) {
     return (
@@ -35,7 +33,7 @@ const CodePreview: FC<{ file: any }> = ({ file }) => {
     return (
       <>
         <PreviewContainer>
-          <Loading loadingText={t('Loading file content...')} />
+          <Loading loadingText={'Loading file content...'} />
         </PreviewContainer>
         <DownloadBtnContainer>
           <DownloadButtonGroup />

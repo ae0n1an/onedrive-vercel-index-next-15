@@ -3,7 +3,6 @@ import type { OdFileObject } from '../../types'
 
 import { FC, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { useTranslation } from 'next-i18next'
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -15,11 +14,11 @@ import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getExtension } from '../../utils/getFileIcon'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
-import { DownloadButton } from '../DownloadBtnGtoup'
-import { DownloadBtnContainer, PreviewContainer } from './Containers'
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
+import { DownloadButton } from '../download-btn-gtoup'
+import { DownloadBtnContainer, PreviewContainer } from './containers'
+import FourOhFour from '../four-oh-four'
+import Loading from '../loading'
+import CustomEmbedLinkMenu from '../custom-embed-link-menu'
 import dynamic from 'next/dynamic'
 
 const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
@@ -87,7 +86,6 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const clipboard = useClipboard()
 
   const [menuOpen, setMenuOpen] = useState(false)
-  const { t } = useTranslation()
 
   // OneDrive generates thumbnails for its video files, we pick the thumbnail with the highest resolution
   const thumbnail = `/api/thumbnail/?path=${asPath}&size=large${hashedToken ? `&odpt=${hashedToken}` : ''}`
@@ -117,7 +115,7 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
         {error ? (
           <FourOhFour errorMsg={error.message} />
         ) : loading && isFlv ? (
-          <Loading loadingText={t('Loading FLV extension...')} />
+          <Loading loadingText={'Loading FLV extension...'} />
         ) : (
           <VideoPlayer
             videoName={file.name}
@@ -137,22 +135,22 @@ const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {
           <DownloadButton
             onClickCallback={() => window.open(videoUrl)}
             btnColor="blue"
-            btnText={t('Download')}
+            btnText={'Download'}
             btnIcon="file-download"
           />
           <DownloadButton
             onClickCallback={() => {
               clipboard.copy(`${getBaseUrl()}/api/raw/?path=${asPath}${hashedToken ? `&odpt=${hashedToken}` : ''}`)
-              toast.success(t('Copied direct link to clipboard.'))
+              toast.success('Copied direct link to clipboard.')
             }}
             btnColor="pink"
-            btnText={t('Copy direct link')}
+            btnText={'Copy direct link'}
             btnIcon="copy"
           />
           <DownloadButton
             onClickCallback={() => setMenuOpen(true)}
             btnColor="teal"
-            btnText={t('Customise link')}
+            btnText={'Customise link'}
             btnIcon="pen"
           />
 

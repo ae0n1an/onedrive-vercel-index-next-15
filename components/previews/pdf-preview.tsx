@@ -1,8 +1,8 @@
 "use client";
 import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
-import { DownloadBtnContainer } from './Containers'
+import DownloadButtonGroup from '../download-btn-gtoup'
+import { DownloadBtnContainer } from './containers'
 import { usePathname } from 'next/navigation'
 
 const PDFEmbedPreview: React.FC<{ file: any }> = ({ file }) => {

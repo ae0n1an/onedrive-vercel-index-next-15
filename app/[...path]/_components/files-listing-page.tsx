@@ -1,14 +1,13 @@
 "use client";
 
-import Navbar from '../../../old/components/Navbar'
-import FileListing from '../../../old/components/FileListing'
-import Footer from '../../../old/components/Footer'
-import Breadcrumb from '../../../old/components/Breadcrumb'
-import SwitchLayout from '../../../old/components/SwitchLayout'
+import Navbar from '../../../components/navbar'
+import FileListing from '../../../components/file-listing'
+import Footer from '../../../components/footer'
+import Breadcrumb from '../../../components/breadcrumb'
+import SwitchLayout from '../../../components/switch-layout'
 import { ParsedUrlQuery } from 'querystring'
 
 export default function FilesListingPage({query}:{query?: ParsedUrlQuery}) {
-  console.log(query)
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white dark:bg-gray-900">

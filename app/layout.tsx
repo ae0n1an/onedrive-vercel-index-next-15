@@ -1,7 +1,7 @@
+import '../styles/globals.css'
+import '../styles/markdown-github.css'
 import siteConfig from '../config/site.config'
 
-import '../old/styles/globals.css'
-import '../old/styles/markdown-github.css'
 import ClientLayout from './_components/client-layout'
 
 export const metadata = {

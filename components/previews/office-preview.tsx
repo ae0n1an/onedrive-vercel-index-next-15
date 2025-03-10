@@ -4,8 +4,8 @@ import { FC, useEffect, useRef, useState } from 'react'
 
 import Preview from 'preview-office-docs'
 
-import DownloadButtonGroup from '../DownloadBtnGtoup'
-import { DownloadBtnContainer } from './Containers'
+import DownloadButtonGroup from '../download-btn-gtoup'
+import { DownloadBtnContainer } from './containers'
 import { getBaseUrl } from '../../utils/getBaseUrl'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 import { usePathname } from 'next/navigation'

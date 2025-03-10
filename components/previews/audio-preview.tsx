@@ -4,12 +4,11 @@ import { FC, useEffect, useRef, useState } from 'react'
 
 import ReactAudioPlayer from 'react-audio-player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTranslation } from 'next-i18next'
 import { usePathname } from 'next/navigation'
 
-import DownloadButtonGroup from '../DownloadBtnGtoup'
-import { DownloadBtnContainer, PreviewContainer } from './Containers'
-import { LoadingIcon } from '../Loading'
+import DownloadButtonGroup from '../download-btn-gtoup'
+import { DownloadBtnContainer, PreviewContainer } from './containers'
+import { LoadingIcon } from '../loading'
 import { formatModifiedDateTime } from '../../utils/fileDetails'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
@@ -21,7 +20,6 @@ enum PlayerState {
 }
 
 const AudioPreview: FC<{ file: OdFileObject }> = ({ file }) => {
-  const { t } = useTranslation()
   // const { asPath } = useRouter()
   const pathname = usePathname();
   const asPath = decodeURIComponent(pathname)
@@ -94,7 +92,7 @@ const AudioPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             <div>
               <div className="mb-2 font-medium">{file.name}</div>
               <div className="mb-4 text-sm text-gray-500">
-                {t('Last modified:') + ' ' + formatModifiedDateTime(file.lastModifiedDateTime)}
+                {'Last modified:' + ' ' + formatModifiedDateTime(file.lastModifiedDateTime)}
               </div>
             </div>
 

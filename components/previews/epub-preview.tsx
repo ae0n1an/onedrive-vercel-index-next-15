@@ -4,14 +4,13 @@ import type { OdFileObject } from '../../types'
 import { FC, useEffect, useRef, useState } from 'react'
 import { ReactReader } from 'react-reader'
 import { usePathname } from 'next/navigation'
-import { useTranslation } from 'next-i18next'
 
-import Loading from '../Loading'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
-import { DownloadBtnContainer } from './Containers'
+import Loading from '../loading'
+import DownloadButtonGroup from '../download-btn-gtoup'
+import { DownloadBtnContainer } from './containers'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
-const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
+const EpubPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   // const { asPath } = useRouter()
   const pathname = usePathname();
   const asPath = decodeURIComponent(pathname)
@@ -28,8 +27,6 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   const [location, setLocation] = useState<string>()
   const onLocationChange = (cfiStr: string) => setLocation(cfiStr)
 
-  const { t } = useTranslation()
-
   // Fix for not valid epub files according to
   // https://github.com/gerhardsletten/react-reader/issues/33#issuecomment-673964947
   const fixEpub = rendition => {
@@ -44,6 +41,8 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
       return t
     }
   }
+
+  console.log(`/api/raw/?path=${asPath}${hashedToken ? '&odpt=' + hashedToken : ''}`)
 
   return (
     <div>
@@ -62,8 +61,8 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
             <ReactReader
               url={`/api/raw/?path=${asPath}${hashedToken ? '&odpt=' + hashedToken : ''}`}
               getRendition={rendition => fixEpub(rendition)}
-              loadingView={<Loading loadingText={t('Loading EPUB ...')} />}
-              location={location}
+              loadingView={<Loading loadingText={'Loading EPUB ...'} />}
+              location={location ? location : null}
               locationChanged={onLocationChange}
               epubInitOptions={{ openAs: 'epub' }}
               epubOptions={{ flow: 'scrolled', allowPopups: true }}
@@ -78,4 +77,4 @@ const EPUBPreview: FC<{ file: OdFileObject }> = ({ file }) => {
   )
 }
 
-export default EPUBPreview
+export default EpubPreview

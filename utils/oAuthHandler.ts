@@ -1,7 +1,7 @@
 import axios from 'axios'
 import CryptoJS from 'crypto-js'
 
-import apiConfig from '../../config/api.config'
+import apiConfig from '../config/api.config'
 
 // Just a disguise to obfuscate required tokens (including but not limited to client secret,
 // access tokens, and refresh tokens), used along with the following two functions
@@ -24,7 +24,7 @@ export function generateAuthorisationUrl(): string {
 
   // Construct URL parameters for OAuth2
   const params = new URLSearchParams()
-  params.append('client_id', clientId)
+  params.append('client_id', clientId!)
   params.append('redirect_uri', redirectUri)
   params.append('response_type', 'code')
   params.append('scope', scope)
@@ -56,11 +56,11 @@ export async function requestTokenWithAuthCode(
   | { error: string; errorDescription: string; errorUri: string }
 > {
   const { clientId, redirectUri, authApi } = apiConfig
-  const clientSecret = revealObfuscatedToken(apiConfig.obfuscatedClientSecret)
+  const clientSecret = revealObfuscatedToken(apiConfig.obfuscatedClientSecret!)
 
   // Construct URL parameters for OAuth2
   const params = new URLSearchParams()
-  params.append('client_id', clientId)
+  params.append('client_id', clientId!)
   params.append('redirect_uri', redirectUri)
   params.append('client_secret', clientSecret)
   params.append('code', code)

@@ -1,12 +1,11 @@
 "use client";
 import { usePathname } from 'next/navigation'
-import { useTranslation } from 'next-i18next'
 
-import FourOhFour from '../FourOhFour'
-import Loading from '../Loading'
-import { DownloadButton } from '../DownloadBtnGtoup'
+import FourOhFour from '../four-oh-four'
+import Loading from '../loading'
+import { DownloadButton } from '../download-btn-gtoup'
 import useFileContent from '../../utils/fetchOnMount'
-import { DownloadBtnContainer, PreviewContainer } from './Containers'
+import { DownloadBtnContainer, PreviewContainer } from './containers'
 
 const parseDotUrl = (content: string): string | undefined => {
   return content
@@ -20,8 +19,6 @@ const TextPreview = ({ file }) => {
   const pathname = usePathname();
   const asPath = decodeURIComponent(pathname)
 
-  const { t } = useTranslation()
-
   const { response: content, error, validating } = useFileContent(`/api/raw/?path=${asPath}`, asPath)
   if (error) {
     return (
@@ -34,7 +31,7 @@ const TextPreview = ({ file }) => {
   if (validating) {
     return (
       <PreviewContainer>
-        <Loading loadingText={t('Loading file content...')} />
+        <Loading loadingText={'Loading file content...'} />
       </PreviewContainer>
     )
   }
@@ -42,7 +39,7 @@ const TextPreview = ({ file }) => {
   if (!content) {
     return (
       <PreviewContainer>
-        <FourOhFour errorMsg={t('File is empty.')} />
+        <FourOhFour errorMsg={'File is empty.'} />
       </PreviewContainer>
     )
   }

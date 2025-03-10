@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import siteConfig from '../../../../config/site.config'
-import Navbar from '../../../../old/components/Navbar'
-import Footer from '../../../../old/components/Footer'
+import Navbar from '../../../../components/navbar'
+import Footer from '../../../../components/footer'
 
-import { getAuthPersonInfo, sendTokenToServer } from '../../../../old/utils/oAuthHandler'
-import { LoadingIcon } from '../../../../old/components/Loading'
+import { getAuthPersonInfo, sendTokenToServer } from '../../../../utils/oAuthHandler'
+import { LoadingIcon } from '../../../../components/loading'
 
 export default function StepThreePage({ accessToken, expiryTime, refreshToken, error, description, errorUri }:{ accessToken : string | null, expiryTime: number | null, refreshToken: string | null, error: string | null, description : string | null, errorUri: string | null }) {
   const router = useRouter()

@@ -4,9 +4,9 @@ import axios from 'axios'
 
 import apiConfig from '../../config/api.config'
 import siteConfig from '../../config/site.config'
-import { revealObfuscatedToken } from '../../old/utils/oAuthHandler'
-import { compareHashedToken } from '../../old/utils/protectedRouteHandler'
-import { getOdAuthTokens, storeOdAuthTokens } from '../../old/utils/odAuthTokenStore'
+import { revealObfuscatedToken } from '../../utils/oAuthHandler'
+import { compareHashedToken } from '../../utils/protectedRouteHandler'
+import { getOdAuthTokens, storeOdAuthTokens } from '../../utils/odAuthTokenStore'
 import { runCorsMiddleware } from './raw/route'
 import { NextRequest, NextResponse } from 'next/server'
 

@@ -1,5 +1,5 @@
 // app/oauth/step-3/page.js
-import { requestTokenWithAuthCode } from '../../../old/utils/oAuthHandler'
+import { requestTokenWithAuthCode } from '../../../utils/oAuthHandler'
 import StepThreePage from './_components/step-three-page'
 
 export default async function OAuthStep3({

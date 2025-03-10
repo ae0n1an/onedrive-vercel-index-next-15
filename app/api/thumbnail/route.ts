@@ -1,4 +1,4 @@
-import type { OdThumbnail } from '../../../old/types'
+import type { OdThumbnail } from '../../../types'
 
 import { posix as pathPosix } from 'path'
 
