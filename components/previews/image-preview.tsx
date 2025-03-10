@@ -4,8 +4,8 @@ import type { OdFileObject } from '../../types'
 import { FC } from 'react'
 import { usePathname } from 'next/navigation'
 
-import { PreviewContainer, DownloadBtnContainer } from './Containers'
-import DownloadButtonGroup from '../DownloadBtnGtoup'
+import { PreviewContainer, DownloadBtnContainer } from './containers'
+import DownloadButtonGroup from '../download-btn-gtoup'
 import { getStoredToken } from '../../utils/protectedRouteHandler'
 
 const ImagePreview: FC<{ file: OdFileObject }> = ({ file }) => {
